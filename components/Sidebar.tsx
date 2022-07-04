@@ -5,14 +5,17 @@ import React, { useState } from "react"
 import { ImCancelCircle } from "react-icons/im"
 import { AiFillHome, AiOutlineMenu } from "react-icons/ai"
 import GoogleLogin from "react-google-login"
+import SuggestedAccounts from "./SuggestedAccounts"
+import Footer from "./Footer"
+import Discover from "./Discover"
 
 const Sidebar: NextPage = () => {
   const [showSidebar, setShowSidebar] = useState(true)
  
   const userProfile = false
 
-  const normalLink = `flex items-center gap-3 transition-all hover:bg-primary p-3 justify-center
-    xl:justify-start cursor-pointer font-semibold text-[#F51997] rounded
+  const normalLink = `flex items-center gap-3 transition-all hover:bg-primary justify-center
+  xl:justify-start cursor-pointer p-3 font-semibold text-[#F51997] rounded
   `
 
   const clickHandler = (): void => {
@@ -26,8 +29,8 @@ const Sidebar: NextPage = () => {
         {showSidebar ? <ImCancelCircle /> : <AiOutlineMenu />}
       </div>
       {showSidebar && (
-        <div className="xl:w-400 w20 flex flex-col justify-start mb10 border-r-2
-          border-grey-200 xl:border-0 p-3"
+        <div className="xl:w-400 w-20 flex flex-col justify-start mb-10 border-r-2
+         border-gray-100 xl:border-0 p-3 "
         >
           <div className="xl:border-b-2 border-gray-200 xl:pb-4">
             <Link href="/">
@@ -46,7 +49,7 @@ const Sidebar: NextPage = () => {
               <p className="text-grey-400">Login to like and comment on videos</p>
               <div className="pr-4">
                 <GoogleLogin
-                  clientId=""
+                  clientId="122"
                   render={(renderProps) => (
                     <button
                       className="bg-white text-lg text-[#F51997] px-6 py-3
@@ -66,6 +69,9 @@ const Sidebar: NextPage = () => {
               </div>
             </div>
           )}
+          <Discover />
+          <SuggestedAccounts />
+          <Footer />
         </div>
       )}
     </div>
