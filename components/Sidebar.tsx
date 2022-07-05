@@ -4,7 +4,6 @@ import React, { useState } from "react"
 
 import { ImCancelCircle } from "react-icons/im"
 import { AiFillHome, AiOutlineMenu } from "react-icons/ai"
-import GoogleLogin from "react-google-login"
 import SuggestedAccounts from "./SuggestedAccounts"
 import Footer from "./Footer"
 import Discover from "./Discover"
@@ -44,31 +43,6 @@ const Sidebar: NextPage = () => {
               </div>
             </Link>
           </div>
-          {!userProfile && (
-            <div className="px-2 py-4 hidden xl:block">
-              <p className="text-grey-400">Login to like and comment on videos</p>
-              <div className="pr-4">
-                <GoogleLogin
-                  clientId="122"
-                  render={(renderProps) => (
-                    <button
-                      className="bg-white text-lg text-[#F51997] px-6 py-3
-                        cursor-pointer border-[1px] border-[#F51997]
-                        rounded-md font-semibold outline-none w-full mt-3
-                        hover:bg-[#F51997] hover:text-white transition-all"
-                      onClick={renderProps.onClick}
-                      disabled={renderProps.disabled}
-                    >
-                      Log in
-                    </button>
-                  )}
-                  onSuccess={() => {}} 
-                  onFailure={() => {}}
-                  cookiePolicy="single_host_origin"
-                />
-              </div>
-            </div>
-          )}
           <Discover />
           <SuggestedAccounts />
           <Footer />

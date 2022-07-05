@@ -1,15 +1,38 @@
+import React, { useEffect, useRef, useState } from "react"
 import { NextPage } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import React from "react"
 import { Video } from "../types"
-import { GoVerified } from 'react-icons/go'
+import { GoVerified } from "react-icons/go"
+import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs"
+import { HiVolumeUp, HiVolumeOff } from "react-icons/hi"
 
 interface IProps {
   post: Video
 }
 
 const VideoCard: NextPage<IProps> = ({ post }) => {
+  const [isHover, setIsHover] = useState(false)
+  const [playing, setPlaying] = useState(false)
+  const [isVideoMuted, setIsVideoMuted] = useState(false)
+
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  const onVideoPress = (): void => {
+    if(playing) {
+      videoRef.current?.pause()
+      setPlaying(false)
+    } else {
+      videoRef.current?.play()
+      setPlaying(true)
+    }
+  }
+
+  useEffect(() => {
+    if (videoRef?.current) {
+      videoRef.current.muted = isVideoMuted;
+    }
+  }, [isVideoMuted])
 
   return (
     <div className="flex flex-col border-b-2 border-gray-200 pb-6">
@@ -47,16 +70,39 @@ const VideoCard: NextPage<IProps> = ({ post }) => {
       <div className="lg:ml-20 flex gap-4 relative">
         <div
           className="rounded-3xl"
-          onMouseEnter={() => {}}
-          onMouseLeave={() => {}}
+          onMouseEnter={() => setIsHover(true)}
+          onMouseLeave={() => setIsHover(false)}
         >
           <Link href="/">
             <video
+              ref={videoRef}
               loop
               src={post.video.asset.url}
               className="lg:w-[600px] h-[300px] md:h-[400px] lg:h-[528px] w-[200px] rounded-2xl cursor-pointer bg-gray-100"
             />
           </Link>
+          {isHover && (
+            <div className="absolute bottom-6 left-5 xl:left-10 flex gap-4">
+              {playing ? (
+                <button onClick={onVideoPress}>
+                  <BsFillPauseFill className="text-black text-2xl lg:text-4xl" />
+                </button>
+              ) : (
+                <button onClick={onVideoPress}>
+                  <BsFillPlayFill className="text-black text-2xl lg:text-4xl" />
+                </button>
+              )}
+              {isVideoMuted ? (
+                <button onClick={() => setIsVideoMuted(false)}>
+                  <HiVolumeOff className="text-black text-2xl lg:text-4xl" />
+                </button>
+              ) : (
+                <button onClick={() => setIsVideoMuted(true)}>
+                  <HiVolumeUp className="text-black text-2xl lg:text-4xl" />
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
